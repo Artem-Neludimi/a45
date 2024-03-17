@@ -1,0 +1,41 @@
+name: a45
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_native_splash: any
+
+flutter_native_splash:
+  background_image: assets/images/sbg_splash_nnn.png  
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/fonts/
+
+  fonts:
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow-BlackItalic.ttf
+          weight: 900
+          style: italic
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-HeavyItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Gilroy-Heavy.ttf
+          weight: 800

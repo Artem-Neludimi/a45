@@ -1,11 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stroke_text/stroke_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flame_audio/flame_audio.dart';
+
+import 'sbg_name_nnn.dart';
+
+late final SharedPreferences sbgSharedPrefsNnn;
 
 class SbgSplashNnn extends StatefulWidget {
   const SbgSplashNnn({super.key});
-
   @override
   State<SbgSplashNnn> createState() => _SbgSplashNnnState();
 }
@@ -16,10 +23,24 @@ class _SbgSplashNnnState extends State<SbgSplashNnn> {
   void initState() {
     Flame.device.fullScreen();
     Flame.device.setPortrait();
+    FlameAudio.bgm.initialize();
+    SharedPreferences.getInstance().then((value) => sbgSharedPrefsNnn = value);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       do {
         setState(() => _progress += .01);
         await Future.delayed(const Duration(milliseconds: 30));
+        if (_progress >= 1) {
+          await Future.delayed(const Duration(milliseconds: 500));
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) => FadeTransition(
+                opacity: animation1,
+                child: const SbgNameNnn(),
+              ),
+            ),
+          );
+        }
       } while (_progress < 1);
     });
     super.initState();

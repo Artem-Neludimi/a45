@@ -196,7 +196,10 @@ class SbgButtonNnn extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('assets/images/sbg_button_nnn.png'),
+          Image.asset(
+            'assets/images/sbg_button_nnn.png',
+            height: 70,
+          ),
           Text(
             text,
             style: const TextStyle(

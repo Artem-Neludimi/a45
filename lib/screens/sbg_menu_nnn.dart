@@ -1,3 +1,4 @@
+import 'package:a45/screens/sbg_levels_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
 import 'package:flutter/material.dart';
 import 'package:stroke_text/stroke_text.dart';
@@ -52,7 +53,14 @@ class SbgMenuNnn extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 SbgButtonNnn(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SbgLevelsNnn(),
+                      ),
+                    );
+                  },
                   text: 'START GAME',
                 ),
                 const SizedBox(height: 20),

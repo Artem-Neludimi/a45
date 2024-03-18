@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:a45/game/sbg_game_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stroke_text/stroke_text.dart';
@@ -40,81 +44,98 @@ class SbgLevelsNnn extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     itemCount: 40,
                     itemBuilder: (context, index) {
-                      return ValueListenableBuilder(
-                        valueListenable: sbgLevelsNotifierNnn,
-                        builder: (context, level, child) {
-                          return Container(
-                            margin: const EdgeInsets.all(5),
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            height: 90,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(.3),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(6, 109, 167, 1),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: Icon(
-                                    index <= level - 1 ? Icons.check : CupertinoIcons.lock_fill,
-                                    size: 20,
-                                    color: index != level - 1 ? Colors.white : const Color.fromRGBO(255, 255, 255, 0.3),
-                                  ),
+                      return GestureDetector(
+                        onTap: () async {
+                          if (index == sbgLevelsNotifierNnn.value - 1) {
+                            await Flame.device.setLandscape();
+                            await Future.delayed(const Duration(milliseconds: 300));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SbgGameNnn(
+                                  level: index + 1,
                                 ),
-                                const SizedBox(width: 20),
-                                Text(
-                                  '${index + 1} level',
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                                const Spacer(),
-                                if (index < level - 1) ...[
-                                  for (int i = 0; i < 3; i++)
-                                    Padding(
-                                      padding: const EdgeInsets.all(2),
-                                      child: Image.asset(
-                                        'assets/images/sbg_ball_icon_nnn.png',
-                                        height: 35,
-                                      ),
-                                    )
-                                ],
-                                if (index == level - 1) ...[
-                                  const StrokeText(
-                                    text: 'Active',
-                                    strokeColor: Colors.white,
-                                    strokeWidth: 4,
-                                    textStyle: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
-                                if (index > level - 1) ...[
-                                  Text(
-                                    'Closed',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(.6),
-                                      fontSize: 20,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ],
-                            ),
-                          );
+                              ),
+                            );
+                          }
                         },
+                        child: ValueListenableBuilder(
+                          valueListenable: sbgLevelsNotifierNnn,
+                          builder: (context, level, child) {
+                            return Container(
+                              margin: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              height: 90,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(.3),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 35,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(6, 109, 167, 1),
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Icon(
+                                      index <= level - 1 ? Icons.check : CupertinoIcons.lock_fill,
+                                      size: 20,
+                                      color:
+                                          index != level - 1 ? Colors.white : const Color.fromRGBO(255, 255, 255, 0.3),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Text(
+                                    '${index + 1} level',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                  const Spacer(),
+                                  if (index < level - 1) ...[
+                                    for (int i = 0; i < 3; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.all(2),
+                                        child: Image.asset(
+                                          'assets/images/sbg_ball_icon_nnn.png',
+                                          height: 35,
+                                        ),
+                                      )
+                                  ],
+                                  if (index == level - 1) ...[
+                                    const StrokeText(
+                                      text: 'Active',
+                                      strokeColor: Colors.white,
+                                      strokeWidth: 4,
+                                      textStyle: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ],
+                                  if (index > level - 1) ...[
+                                    Text(
+                                      'Closed',
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(.6),
+                                        fontSize: 20,
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

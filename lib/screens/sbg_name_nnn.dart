@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:a45/screens/sbg_onboarding_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,6 +55,7 @@ class SbgNameNnn extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
+                    fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -105,12 +108,14 @@ class SbgNameNnn extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                   cursorColor: Colors.white,
                   decoration: const InputDecoration(
                     hintText: 'your name',
                     hintStyle: TextStyle(
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
@@ -126,9 +131,13 @@ class SbgNameNnn extends StatelessWidget {
                 const SizedBox(height: 20),
                 SbgButtonNnn(
                   onPressed: () {
+                    if (sbgNameNotifierNnn.value == null || sbgNameNotifierNnn.value!.isEmpty) {
+                      final random = Random().nextInt(9000) + 1000;
+                      sbgNameOnChangedNnn('Player $random');
+                    }
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const SbgSplashNnn(),
+                        builder: (context) => const SbgOnboardingNnn(),
                       ),
                     );
                   },
@@ -193,6 +202,7 @@ class SbgButtonNnn extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontSize: 22,
+              fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic,
             ),
           ),

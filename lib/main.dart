@@ -5,7 +5,9 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Gilroy'),
+      theme: ThemeData(
+        fontFamily: 'Gilroy',
+      ),
       home: const SbgSplashNnn(),
     ),
   );

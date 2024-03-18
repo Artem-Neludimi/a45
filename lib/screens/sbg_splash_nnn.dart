@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:a45/screens/sbg_menu_nnn.dart';
+import 'package:a45/screens/sbg_onboarding_nnn.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/widgets.dart';
@@ -36,7 +38,7 @@ class _SbgSplashNnnState extends State<SbgSplashNnn> {
             PageRouteBuilder(
               pageBuilder: (context, animation1, animation2) => FadeTransition(
                 opacity: animation1,
-                child: const SbgNameNnn(),
+                child: sbgOnboardingNotifierNnn.value ? const SbgMenuNnn() : const SbgNameNnn(),
               ),
             ),
           );

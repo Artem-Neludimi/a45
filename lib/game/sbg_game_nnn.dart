@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
+import 'package:a45/screens/sbg_levels_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
@@ -38,6 +39,7 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
       if (_timerTick.value == 0) {
         game.pauseEngine();
         _timer?.cancel();
+        sbgLevelsSetNnn(widget.level + 1);
         showDialog(
           context: context,
           barrierColor: const Color.fromRGBO(13, 89, 132, .9),

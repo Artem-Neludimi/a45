@@ -9,6 +9,9 @@ import 'package:stroke_text/stroke_text.dart';
 
 final sbgLevelsNotifierNnn = ValueNotifier<int>(sbgSharedPrefsNnn.getInt('sbgLevelsNotifierNnn') ?? 1);
 void sbgLevelsSetNnn(int value) {
+  if (value < sbgLevelsNotifierNnn.value) {
+    return;
+  }
   sbgLevelsNotifierNnn.value = value;
   sbgSharedPrefsNnn.setInt('sbgLevelsNotifierNnn', value);
 }

@@ -16,12 +16,34 @@ class SbgGoalNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
       game.size.x / 2,
       game.size.y - size.y / 2,
     );
-    final paint = Paint()
-      ..color = const Color.fromARGB(255, 255, 0, 0)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-    add(RectangleHitbox());
+    add(RectangleHitbox(
+      size: Vector2(size.x * .8, size.y * .6),
+      anchor: const Anchor(-.12, -.66),
+    )..renderShape = false);
+    game.addAll([
+      SbgBarNnn()
+        ..radius = size.x * .03
+        ..position = Vector2(
+          position.x - size.x / 2 + size.x * .03,
+          position.y - size.y / 2,
+        ),
+      SbgBarNnn()
+        ..radius = size.x * .03
+        ..position = Vector2(
+          position.x + size.x / 2 - size.x * .1,
+          position.y - size.y / 2,
+        )
+    ]);
 
+    return super.onLoad();
+  }
+}
+
+class SbgBarNnn extends CircleComponent {
+  @override
+  Future<void> onLoad() async {
+    paint = Paint()..color = const Color.fromARGB(0, 0, 0, 0);
+    add(CircleHitbox()..renderShape = false);
     return super.onLoad();
   }
 }

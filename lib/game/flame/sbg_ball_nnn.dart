@@ -55,7 +55,8 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is SbgGoalNnn) {
+    if (other is SbgGoalNnn) {}
+    if (other is SbgBarNnn) {
       direction.y = -400;
       direction.x = Random().nextDouble() * 600 - 300;
     }

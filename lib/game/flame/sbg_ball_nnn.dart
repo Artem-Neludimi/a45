@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:a45/game/flame/sbg_goal_nnn.dart';
+import 'package:a45/screens/sbg_menu_nnn.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -14,9 +15,15 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
     Random().nextDouble() * 600 - 300,
     100,
   );
+  bool isCoin = false;
   @override
   Future<void> onLoad() async {
-    sprite = await game.loadSprite('sbg_ball_nnn.png');
+    isCoin = Random().nextDouble() > .9;
+    if (isCoin) {
+      sprite = await game.loadSprite('sbg_coin_nnn.png');
+    } else {
+      sprite = await game.loadSprite('sbg_ball_nnn.png');
+    }
     anchor = Anchor.center;
     size = Vector2(
       game.size.y * .13,
@@ -28,7 +35,7 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
           : Random().nextDouble() * game.size.x / 2 + game.size.x / 2,
       0 - size.y / 2,
     );
-    add(CircleHitbox()..allowSiblingCollision = true);
+    add(CircleHitbox());
 
     return super.onLoad();
   }
@@ -65,17 +72,26 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
       direction.x = (position.x - other.position.x) * 5;
     }
     if (other is SbgGlovesNnn) {
-      final mid = intersectionPoints.reduce((a, b) => a + b) / intersectionPoints.length.toDouble();
-      final rect = other.toRect();
-      final isTop = mid.y - 15 < rect.top;
-      if (isTop) {
-        direction.y = -400;
-        direction.x = (position.x - other.position.x) * 5;
-      } else {
-        direction.y = -100;
-        direction.x = (position.x - other.position.x) * 5;
-      }
+      _manageGloves(intersectionPoints, other);
     }
     super.onCollision(intersectionPoints, other);
+  }
+
+  void _manageGloves(Set<Vector2> intersectionPoints, SbgGlovesNnn other) {
+    if (isCoin) {
+      game.remove(this);
+      sbgMoneyAddNnn(1);
+      return;
+    }
+    final mid = intersectionPoints.reduce((a, b) => a + b) / intersectionPoints.length.toDouble();
+    final rect = other.toRect();
+    final isTop = mid.y - 15 < rect.top;
+    if (isTop) {
+      direction.y = -400;
+      direction.x = (position.x - other.position.x) * 5;
+    } else {
+      direction.y = -100;
+      direction.x = (position.x - other.position.x) * 5;
+    }
   }
 }

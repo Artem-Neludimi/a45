@@ -1,7 +1,14 @@
 import 'package:a45/screens/sbg_levels_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
+import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 import 'package:stroke_text/stroke_text.dart';
+
+final sbgMoneyNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getInt('sbgMoneyNotifierNnn') ?? 0);
+void sbgMoneyAddNnn(int value) {
+  sbgMoneyNotifierNnn.value += value;
+  sbgSharedPrefsNnn.setInt('sbgMoneyNotifierNnn', sbgMoneyNotifierNnn.value);
+}
 
 class SbgMenuNnn extends StatelessWidget {
   const SbgMenuNnn({super.key});

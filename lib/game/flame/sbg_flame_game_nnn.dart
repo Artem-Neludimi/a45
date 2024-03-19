@@ -6,9 +6,10 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 
+import 'sbg_field_nnn.dart';
 import 'sbg_goal_nnn.dart';
 
-class SbgFlameGameNnn extends FlameGame with PanDetector {
+class SbgFlameGameNnn extends FlameGame with PanDetector, HasCollisionDetection {
   late final SbgGlovesNnn gloves;
   final Timer spawnTimer = Timer(.8, repeat: true);
 
@@ -17,8 +18,9 @@ class SbgFlameGameNnn extends FlameGame with PanDetector {
   @override
   Future<void> onLoad() async {
     addAll([
-      SbgGoalNnn(),
+      SbgFieldNnn(),
       gloves = SbgGlovesNnn(),
+      SbgGoalNnn(),
     ]);
     return super.onLoad();
   }

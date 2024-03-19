@@ -2,6 +2,7 @@ import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:flame/components.dart';
 
 class SbgGlovesNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
+  SbgGlovesNnn() : super(priority: 3);
   @override
   Future<void> onLoad() async {
     sprite = await game.loadSprite('sbg_gloves_nnn.png');

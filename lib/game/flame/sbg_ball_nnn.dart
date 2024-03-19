@@ -1,9 +1,13 @@
 import 'dart:math';
 
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
+import 'package:a45/game/flame/sbg_goal_nnn.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
+import 'sbg_gloves_nnn.dart';
+
+class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, CollisionCallbacks {
   SbgBallNnn() : super(priority: 1);
 
   Vector2 direction = Vector2(
@@ -24,6 +28,7 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
           : Random().nextDouble() * game.size.x / 2 + game.size.x / 2,
       0 - size.y / 2,
     );
+    add(CircleHitbox()..allowSiblingCollision = true);
 
     return super.onLoad();
   }
@@ -46,5 +51,18 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
     if (position.y > game.size.y) {
       game.remove(this);
     }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is SbgGoalNnn) {
+      direction.y = -400;
+      direction.x = Random().nextDouble() * 600 - 300;
+    }
+    if (other is SbgBallNnn) {
+      direction.y = Random().nextDouble() * 100 - 50;
+      direction.x = (position.x - other.position.x) * 5;
+    }
+    super.onCollision(intersectionPoints, other);
   }
 }

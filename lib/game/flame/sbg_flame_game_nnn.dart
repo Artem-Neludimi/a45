@@ -5,11 +5,17 @@ import 'package:a45/game/flame/sbg_gloves_nnn.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 
 import 'sbg_field_nnn.dart';
 import 'sbg_goal_nnn.dart';
 
 class SbgFlameGameNnn extends FlameGame with PanDetector, HasCollisionDetection {
+  SbgFlameGameNnn({
+    required this.lives,
+  });
+  final ValueNotifier<int> lives;
+
   late final SbgGlovesNnn gloves;
   final Timer spawnTimer = Timer(.8, repeat: true);
 
@@ -39,5 +45,11 @@ class SbgFlameGameNnn extends FlameGame with PanDetector, HasCollisionDetection 
     final x = info.eventPosition.global.x;
     gloves.position.x = x;
     super.onPanUpdate(info);
+  }
+
+  void reset() {
+    resumeEngine();
+    final balls = children.whereType<SbgBallNnn>().toList();
+    removeAll(balls);
   }
 }

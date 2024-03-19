@@ -1,9 +1,27 @@
+import 'package:a45/sbg_constats_nnn.dart';
 import 'package:a45/screens/sbg_levels_nnn.dart';
+import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:system_settings/system_settings.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'sbg_name_nnn.dart';
+
+final sbgNotificationNotifierNnn =
+    ValueNotifier<bool>(sbgSharedPrefsNnn.getBool('sbgNotificationNotifierNnn') ?? false);
+void sbgNotificationToggleNnn() {
+  sbgNotificationNotifierNnn.value = !sbgNotificationNotifierNnn.value;
+  sbgSharedPrefsNnn.setBool('sbgNotificationNotifierNnn', sbgNotificationNotifierNnn.value);
+}
+
+final sbgSoundNotifierNnn = ValueNotifier<bool>(sbgSharedPrefsNnn.getBool('sbgSoundNotifierNnn') ?? false);
+void sbgSoundToggleNnn() {
+  sbgSoundNotifierNnn.value = !sbgSoundNotifierNnn.value;
+  sbgSharedPrefsNnn.setBool('sbgSoundNotifierNnn', sbgSoundNotifierNnn.value);
+}
 
 class SbgSettingsNnn extends StatelessWidget {
   const SbgSettingsNnn({super.key});
@@ -87,29 +105,57 @@ class SbgSettingsNnn extends StatelessWidget {
                             ),
                           ),
                         ),
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Sound',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          trailing: CupertinoSwitch(
-                            activeColor: Colors.red,
-                            trackColor: Colors.black.withOpacity(.5),
-                            value: false,
-                            onChanged: (value) {},
-                          ),
-                        ),
+                        ValueListenableBuilder(
+                            valueListenable: sbgSoundNotifierNnn,
+                            builder: (context, sound, _) {
+                              return ListTile(
+                                onTap: () {
+                                  sbgSoundToggleNnn();
+                                },
+                                contentPadding: EdgeInsets.zero,
+                                title: const Text(
+                                  'Game Sounds',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                trailing: IgnorePointer(
+                                  child: CupertinoSwitch(
+                                    activeColor: Colors.red,
+                                    trackColor: Colors.black.withOpacity(.5),
+                                    value: sound,
+                                    onChanged: (value) {},
+                                  ),
+                                ),
+                              );
+                            }),
                         Divider(
                           height: 2,
                           color: Colors.white.withOpacity(.3),
                           thickness: 2,
                         ),
                         ListTile(
+                          onTap: () async {
+                            final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+                            await flutterLocalNotificationsPlugin
+                                .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+                                ?.requestPermissions(
+                                  alert: true,
+                                  badge: true,
+                                  sound: true,
+                                );
+
+                            final check = await flutterLocalNotificationsPlugin
+                                .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()!
+                                .checkPermissions();
+                            if (check?.isEnabled ?? false) {
+                              sbgNotificationToggleNnn();
+                            } else {
+                              SystemSettings.appNotifications();
+                            }
+                          },
                           contentPadding: EdgeInsets.zero,
                           title: const Text(
                             'Notifications',
@@ -119,21 +165,30 @@ class SbgSettingsNnn extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          trailing: CupertinoSwitch(
-                            activeColor: Colors.red,
-                            trackColor: Colors.black.withOpacity(.5),
-                            value: false,
-                            onChanged: (value) {},
-                          ),
+                          trailing: ValueListenableBuilder(
+                              valueListenable: sbgNotificationNotifierNnn,
+                              builder: (context, value, _) {
+                                return IgnorePointer(
+                                  child: CupertinoSwitch(
+                                    activeColor: Colors.red,
+                                    trackColor: Colors.black.withOpacity(.5),
+                                    value: value,
+                                    onChanged: (value) {},
+                                  ),
+                                );
+                              }),
                         ),
                         Divider(
                           height: 2,
                           color: Colors.white.withOpacity(.3),
                           thickness: 2,
                         ),
-                        const ListTile(
+                        ListTile(
+                          onTap: () {
+                            launchUrl(Uri.parse(sbgPrivacyNnn));
+                          },
                           contentPadding: EdgeInsets.zero,
-                          title: Text(
+                          title: const Text(
                             'Privacy Policy',
                             style: TextStyle(
                               color: Colors.white,
@@ -147,9 +202,12 @@ class SbgSettingsNnn extends StatelessWidget {
                           color: Colors.white.withOpacity(.3),
                           thickness: 2,
                         ),
-                        const ListTile(
+                        ListTile(
+                          onTap: () {
+                            launchUrl(Uri.parse(sbgTermsNnn));
+                          },
                           contentPadding: EdgeInsets.zero,
-                          title: Text(
+                          title: const Text(
                             'Terms of Use',
                             style: TextStyle(
                               color: Colors.white,
@@ -163,9 +221,12 @@ class SbgSettingsNnn extends StatelessWidget {
                           color: Colors.white.withOpacity(.3),
                           thickness: 2,
                         ),
-                        const ListTile(
+                        ListTile(
+                          onTap: () {
+                            Share.share('Try this app!');
+                          },
                           contentPadding: EdgeInsets.zero,
-                          title: Text(
+                          title: const Text(
                             'Share App',
                             style: TextStyle(
                               color: Colors.white,

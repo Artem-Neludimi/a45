@@ -16,6 +16,9 @@ dependencies:
   flame_audio: ^2.10.0
   system_settings: ^2.1.0
   image_picker: ^1.0.7
+  url_launcher: ^6.2.5
+  share_plus: ^7.2.2
+  flutter_local_notifications: ^17.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,6 @@
 import 'package:a45/sbg_constats_nnn.dart';
-import 'package:a45/screens/sbg_levels_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_levels_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:system_settings/system_settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-import 'sbg_name_nnn.dart';
+import '../xxllslsaa/ewdwew/sbg_name_nnn.dart';
 
 final sbgNotificationNotifierNnn =
     ValueNotifier<bool>(sbgSharedPrefsNnn.getBool('sbgNotificationNotifierNnn') ?? false);

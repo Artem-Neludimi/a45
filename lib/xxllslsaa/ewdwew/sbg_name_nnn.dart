@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:a45/screens/sbg_onboarding_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/cewwedwq/wqdeqwxx/sbg_onboarding_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:a45/screens/sbg_menu_nnn.dart';
-import 'package:a45/screens/sbg_onboarding_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
+import 'package:a45/cewwedwq/wqdeqwxx/sbg_onboarding_nnn.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +10,7 @@ import 'package:stroke_text/stroke_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-import 'sbg_name_nnn.dart';
+import 'ewdwew/sbg_name_nnn.dart';
 
 late final SharedPreferences sbgSharedPrefsNnn;
 

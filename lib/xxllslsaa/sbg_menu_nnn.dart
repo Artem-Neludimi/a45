@@ -1,10 +1,10 @@
-import 'package:a45/screens/sbg_levels_nnn.dart';
-import 'package:a45/screens/sbg_name_nnn.dart';
-import 'package:a45/screens/sbg_shop_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_levels_nnn.dart';
+import 'package:a45/xxllslsaa/ewdwew/sbg_name_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_shop_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 
-import 'sbg_settings_nnn.dart';
+import '../cewwedwq/sbg_settings_nnn.dart';
 
 final sbgMoneyNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getInt('sbgMoneyNotifierNnn') ?? 0);
 void sbgMoneyAddNnn(int value) {

@@ -1,4 +1,4 @@
-import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
+import 'package:a45/cewwedwq/wqdeqwxx/sbg_flame_game_nnn.dart';
 import 'package:flame/components.dart';
 
 class SbgFieldNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {

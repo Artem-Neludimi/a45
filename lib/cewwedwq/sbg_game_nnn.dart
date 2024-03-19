@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
-import 'package:a45/screens/sbg_levels_nnn.dart';
-import 'package:a45/screens/sbg_menu_nnn.dart';
-import 'package:a45/screens/sbg_name_nnn.dart';
-import 'package:a45/screens/sbg_shop_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/cewwedwq/wqdeqwxx/sbg_flame_game_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_levels_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
+import 'package:a45/xxllslsaa/ewdwew/sbg_name_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_shop_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';

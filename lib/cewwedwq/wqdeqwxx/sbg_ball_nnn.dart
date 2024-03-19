@@ -1,14 +1,13 @@
 import 'dart:math';
 
-import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
-import 'package:a45/game/flame/sbg_goal_nnn.dart';
-import 'package:a45/screens/sbg_menu_nnn.dart';
-import 'package:a45/screens/sbg_settings_nnn.dart';
+import 'package:a45/cewwedwq/wqdeqwxx/sbg_flame_game_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_goal_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-import 'sbg_gloves_nnn.dart';
+import '../../xxllslsaa/ewdwew/sbg_gloves_nnn.dart';
 
 class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, CollisionCallbacks {
   SbgBallNnn() : super(priority: 1);

@@ -1,8 +1,8 @@
-import 'package:a45/screens/sbg_menu_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 
-import 'sbg_name_nnn.dart';
+import '../../xxllslsaa/ewdwew/sbg_name_nnn.dart';
 
 final sbgOnboardingNotifierNnn = ValueNotifier<bool>(sbgSharedPrefsNnn.getBool('sbgOnboardingNotifierNnn') ?? false);
 void sbgOnboardingSetNnn() {

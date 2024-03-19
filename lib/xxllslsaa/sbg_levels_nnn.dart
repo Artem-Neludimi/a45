@@ -2,10 +2,10 @@
 
 import 'dart:math';
 
-import 'package:a45/game/sbg_game_nnn.dart';
-import 'package:a45/screens/sbg_menu_nnn.dart';
-import 'package:a45/screens/sbg_name_nnn.dart';
-import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:a45/cewwedwq/sbg_game_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
+import 'package:a45/xxllslsaa/ewdwew/sbg_name_nnn.dart';
+import 'package:a45/xxllslsaa/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

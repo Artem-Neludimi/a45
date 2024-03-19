@@ -1,9 +1,18 @@
+import 'dart:async';
+
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
+import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:stroke_text/stroke_text.dart';
+
+final sbgBonusNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getBool('sbgBonusNotifierNnn') ?? false);
+void sbgBonusSetNnn() {
+  sbgBonusNotifierNnn.value = true;
+  sbgSharedPrefsNnn.setBool('sbgBonusNotifierNnn', true);
+}
 
 class SbgGameNnn extends StatefulWidget {
   const SbgGameNnn({super.key, required this.level});
@@ -14,13 +23,35 @@ class SbgGameNnn extends StatefulWidget {
 }
 
 class _SbgGameNnnState extends State<SbgGameNnn> {
+  Timer? _timer;
+  bool isTimerPaused = false;
+  late final ValueNotifier<int> _timerTick = ValueNotifier(50 + widget.level * 10);
+
   final livesNotifier = ValueNotifier(3);
   late final game = SbgFlameGameNnn(lives: livesNotifier);
   @override
   void initState() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!isTimerPaused) _timerTick.value--;
+    });
+    _timerTick.addListener(() {
+      if (_timerTick.value == 0) {
+        game.pauseEngine();
+        _timer?.cancel();
+        showDialog(
+          context: context,
+          barrierColor: const Color.fromRGBO(13, 89, 132, .9),
+          builder: (_) => _SbgWinDialog(
+            level: widget.level,
+            lives: livesNotifier.value,
+          ),
+        );
+      }
+    });
     livesNotifier.addListener(() async {
       if (livesNotifier.value == 0) {
         game.pauseEngine();
+        _timer?.cancel();
         final isRestart = await showDialog(
           context: context,
           barrierColor: const Color.fromRGBO(13, 89, 132, .9),
@@ -30,6 +61,10 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
         );
         if (isRestart == true) {
           game.reset();
+          _timerTick.value = 50 + widget.level * 10;
+          _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+            if (!isTimerPaused) _timerTick.value--;
+          });
           livesNotifier.value = 3;
         }
       }
@@ -40,6 +75,7 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
   @override
   void dispose() {
     Flame.device.setPortrait();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -63,10 +99,33 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
               game: game,
             ),
             Positioned(
+              top: 8,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ValueListenableBuilder(
+                  valueListenable: _timerTick,
+                  builder: (context, value, _) {
+                    return StrokeText(
+                      text: _build0000Timer(value),
+                      textStyle: const TextStyle(
+                        fontFamily: 'Barlow',
+                        fontSize: 30,
+                        color: Color.fromRGBO(37, 47, 108, 1),
+                      ),
+                      strokeWidth: 6,
+                      strokeColor: Colors.white,
+                    );
+                  },
+                ),
+              ),
+            ),
+            Positioned(
               top: 7,
               left: 7,
               child: GestureDetector(
                 onTap: () async {
+                  isTimerPaused = true;
                   game.pauseEngine();
                   final isRestart = await showDialog(
                     context: context,
@@ -77,6 +136,7 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
                   );
                   if (isRestart == true) {
                     game.resumeEngine();
+                    isTimerPaused = false;
                   }
                 },
                 child: Image.asset(
@@ -127,6 +187,12 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
         ),
       ),
     );
+  }
+
+  String _build0000Timer(int time) {
+    final minutes = (time / 60).floor().toString().padLeft(2, '0');
+    final seconds = (time % 60).floor().toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 }
 
@@ -183,6 +249,224 @@ class _SbgLoseDialog extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SbgWinDialog extends StatelessWidget {
+  const _SbgWinDialog({
+    super.key,
+    required this.level,
+    required this.lives,
+  });
+
+  final int level;
+  final int lives;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: ValueListenableBuilder(
+          valueListenable: sbgBonusNotifierNnn,
+          builder: (context, value, _) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: value
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 60),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              StrokeText(
+                                text: 'Congratulations!',
+                                strokeColor: Colors.white,
+                                strokeWidth: 6,
+                                textStyle: TextStyle(
+                                  fontFamily: 'Barlow',
+                                  fontSize: 40,
+                                  color: Color.fromRGBO(37, 47, 108, 1),
+                                ),
+                              ),
+                              StrokeText(
+                                text: ' Your reward',
+                                strokeColor: Colors.white,
+                                strokeWidth: 6,
+                                textStyle: TextStyle(
+                                  fontFamily: 'Barlow',
+                                  fontSize: 40,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/sbg_coin_nnn.png',
+                                height: 35,
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                '100',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SbgButtonNnn(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  text: 'MENU',
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: SbgButtonNnn(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  text: 'NEXT LEVEL',
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Stack(
+                      children: [
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              sbgBonusSetNnn();
+                            },
+                            child: Image.asset(
+                              'assets/images/sbg_gift_nnn.png',
+                              width: MediaQuery.of(context).size.width * 1,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                StrokeText(
+                                  text: 'Congratulations!',
+                                  strokeColor: Colors.white,
+                                  strokeWidth: 6,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Barlow',
+                                    fontSize: 40,
+                                    color: Color.fromRGBO(37, 47, 108, 1),
+                                  ),
+                                ),
+                                StrokeText(
+                                  text: ' You Win!',
+                                  strokeColor: Colors.white,
+                                  strokeWidth: 6,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Barlow',
+                                    fontSize: 40,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'YOUR RESULTS',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 300),
+                                  opacity: lives >= 1 ? 1 : 0.5,
+                                  child: Image.asset(
+                                    'assets/images/sbg_ball_icon_nnn.png',
+                                    height: 35,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 300),
+                                  opacity: lives >= 2 ? 1 : 0.5,
+                                  child: Image.asset(
+                                    'assets/images/sbg_ball_icon_nnn.png',
+                                    height: 35,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 300),
+                                  opacity: lives >= 3 ? 1 : 0.5,
+                                  child: Image.asset(
+                                    'assets/images/sbg_ball_icon_nnn.png',
+                                    height: 35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                StrokeText(
+                                  text: 'TAP TO OPEN YOUR',
+                                  strokeColor: Colors.white,
+                                  strokeWidth: 3,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Barlow',
+                                    fontSize: 20,
+                                    color: Color.fromRGBO(37, 47, 108, 1),
+                                  ),
+                                ),
+                                StrokeText(
+                                  text: ' GIFT BOX',
+                                  strokeColor: Colors.white,
+                                  strokeWidth: 3,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Barlow',
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+            );
+          }),
     );
   }
 }

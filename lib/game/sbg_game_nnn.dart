@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:a45/screens/sbg_levels_nnn.dart';
+import 'package:a45/screens/sbg_menu_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
@@ -359,6 +360,7 @@ class _SbgWinDialog extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               sbgBonusSetNnn();
+                              sbgMoneyAddNnn(100);
                             },
                             child: Image.asset(
                               'assets/images/sbg_gift_nnn.png',

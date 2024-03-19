@@ -21,7 +21,7 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
     livesNotifier.addListener(() async {
       if (livesNotifier.value == 0) {
         game.pauseEngine();
-       final isRestart= await showDialog(
+        final isRestart = await showDialog(
           context: context,
           barrierColor: const Color.fromRGBO(13, 89, 132, .9),
           builder: (_) => _SbgLoseDialog(
@@ -61,6 +61,29 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
           children: [
             GameWidget(
               game: game,
+            ),
+            Positioned(
+              top: 7,
+              left: 7,
+              child: GestureDetector(
+                onTap: () async {
+                  game.pauseEngine();
+                  final isRestart = await showDialog(
+                    context: context,
+                    barrierColor: const Color.fromRGBO(13, 89, 132, .9),
+                    builder: (_) => _SbgPauseDialog(
+                      level: widget.level,
+                    ),
+                  );
+                  if (isRestart == true) {
+                    game.resumeEngine();
+                  }
+                },
+                child: Image.asset(
+                  'assets/images/sbg_pause_nnn.png',
+                  height: 35,
+                ),
+              ),
             ),
             Positioned(
               bottom: 10,
@@ -153,6 +176,62 @@ class _SbgLoseDialog extends StatelessWidget {
                       Navigator.of(context).pop(true);
                     },
                     text: 'PLAY AGAIN',
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SbgPauseDialog extends StatelessWidget {
+  const _SbgPauseDialog({
+    required this.level,
+  });
+
+  final int level;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 60),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const StrokeText(
+              text: 'You Lose',
+              strokeColor: Colors.white,
+              strokeWidth: 6,
+              textStyle: TextStyle(
+                fontFamily: 'Barlow',
+                fontSize: 40,
+                color: Color.fromRGBO(37, 47, 108, 1),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: SbgButtonNnn(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    text: 'MENU',
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: SbgButtonNnn(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    text: 'BACK TO GAME',
                   ),
                 ),
               ],

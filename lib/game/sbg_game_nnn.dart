@@ -159,7 +159,6 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
                         );
                       }),
                   const SizedBox(width: 5),
-                  // Image.asset('assets/images/sbg_minus_goal_nnn.png'),
                   ValueListenableBuilder(
                       valueListenable: livesNotifier,
                       builder: (context, lives, _) {

@@ -4,6 +4,8 @@ import 'package:a45/screens/sbg_shop_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 
+import 'sbg_settings_nnn.dart';
+
 final sbgMoneyNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getInt('sbgMoneyNotifierNnn') ?? 0);
 void sbgMoneyAddNnn(int value) {
   sbgMoneyNotifierNnn.value += value;
@@ -84,7 +86,14 @@ class SbgMenuNnn extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SbgButtonNnn(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SbgSettingsNnn(),
+                      ),
+                    );
+                  },
                   text: 'SETTINGS',
                 ),
               ],

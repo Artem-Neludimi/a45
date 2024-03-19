@@ -47,211 +47,213 @@ class SbgShopNnn extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const SbgAppBarNnn(title: 'Shop'),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text(
-                              'BOOSTS',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(.5),
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const SbgAppBarNnn(title: 'Shop'),
+                      const SizedBox(height: 20),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                'BOOSTS',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(.5),
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                          ),
-                          ValueListenableBuilder(
-                            valueListenable: sbgMinusTenNotifierNnn,
-                            builder: (context, minusTen, _) {
-                              return Stack(
-                                children: [
-                                  _SbgItemNnn(
-                                    leading: const Text(
-                                      '- 10 sec',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 26,
+                            ValueListenableBuilder(
+                              valueListenable: sbgMinusTenNotifierNnn,
+                              builder: (context, minusTen, _) {
+                                return Stack(
+                                  children: [
+                                    _SbgItemNnn(
+                                      leading: const Text(
+                                        '- 10 sec',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 26,
+                                        ),
                                       ),
+                                      price: 100,
+                                      isActive: false,
+                                      onPressed: money < 100
+                                          ? null
+                                          : () {
+                                              sbgMinusTenIncrementNnn();
+                                              sbgMoneyAddNnn(-100);
+                                            },
                                     ),
-                                    price: 100,
-                                    isActive: false,
-                                    onPressed: money < 100
-                                        ? null
-                                        : () {
-                                            sbgMinusTenIncrementNnn();
-                                            sbgMoneyAddNnn(-100);
-                                          },
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    height: 35,
-                                    width: 35,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color.fromRGBO(235, 22, 40, 1),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          minusTen.toString(),
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                    Positioned(
+                                      left: 0,
+                                      top: 0,
+                                      height: 35,
+                                      width: 35,
+                                      child: DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color.fromRGBO(235, 22, 40, 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            minusTen.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          ValueListenableBuilder(
-                            valueListenable: sbgMinusGoalNotifierNnn,
-                            builder: (context, minusGoal, _) {
-                              return Stack(
-                                children: [
-                                  _SbgItemNnn(
-                                    leading: const Text(
-                                      '- Goal',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 26,
+                                  ],
+                                );
+                              },
+                            ),
+                            ValueListenableBuilder(
+                              valueListenable: sbgMinusGoalNotifierNnn,
+                              builder: (context, minusGoal, _) {
+                                return Stack(
+                                  children: [
+                                    _SbgItemNnn(
+                                      leading: const Text(
+                                        '- Goal',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 26,
+                                        ),
                                       ),
+                                      price: 200,
+                                      isActive: false,
+                                      onPressed: money < 200
+                                          ? null
+                                          : () {
+                                              sbgMinusGoalIncrementNnn();
+                                              sbgMoneyAddNnn(-200);
+                                            },
                                     ),
-                                    price: 200,
-                                    isActive: false,
-                                    onPressed: money < 200
-                                        ? null
-                                        : () {
-                                            sbgMinusGoalIncrementNnn();
-                                            sbgMoneyAddNnn(-200);
-                                          },
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    top: 0,
-                                    height: 35,
-                                    width: 35,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color.fromRGBO(235, 22, 40, 1),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          minusGoal.toString(),
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                    Positioned(
+                                      left: 0,
+                                      top: 0,
+                                      height: 35,
+                                      width: 35,
+                                      child: DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color.fromRGBO(235, 22, 40, 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            minusGoal.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text(
-                              'BALLS',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(.5),
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                  ],
+                                );
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                'BALLS',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(.5),
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_ball_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_ball_nnn.png',
+                              ),
+                              price: 0,
+                              isActive: true,
                             ),
-                            price: 0,
-                            isActive: true,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_b2_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_b2_nnn.png',
+                              ),
+                              price: 500,
+                              isActive: false,
                             ),
-                            price: 500,
-                            isActive: false,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_b3_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_b3_nnn.png',
+                              ),
+                              price: 750,
+                              isActive: false,
                             ),
-                            price: 750,
-                            isActive: false,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_b4_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_b4_nnn.png',
+                              ),
+                              price: 1000,
+                              isActive: false,
                             ),
-                            price: 1000,
-                            isActive: false,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Text(
-                              'GLOVES',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(.5),
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                'GLOVES',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(.5),
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_gloves_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_gloves_nnn.png',
+                              ),
+                              price: 0,
+                              isActive: true,
                             ),
-                            price: 0,
-                            isActive: true,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_g2_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_g2_nnn.png',
+                              ),
+                              price: 500,
+                              isActive: false,
                             ),
-                            price: 500,
-                            isActive: false,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_g3_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_g3_nnn.png',
+                              ),
+                              price: 750,
+                              isActive: false,
                             ),
-                            price: 750,
-                            isActive: false,
-                          ),
-                          _SbgItemNnn(
-                            leading: Image.asset(
-                              'assets/images/sbg_shop_g4_nnn.png',
+                            _SbgItemNnn(
+                              leading: Image.asset(
+                                'assets/images/sbg_shop_g4_nnn.png',
+                              ),
+                              price: 1000,
+                              isActive: false,
                             ),
-                            price: 1000,
-                            isActive: false,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

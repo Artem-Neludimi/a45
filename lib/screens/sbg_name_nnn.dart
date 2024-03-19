@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:a45/screens/sbg_onboarding_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,7 +29,8 @@ void sbgSaveImageNnn(Uint8List bytes) {
 }
 
 class SbgNameNnn extends StatelessWidget {
-  const SbgNameNnn({super.key});
+  const SbgNameNnn({super.key, this.isFromSettings = false});
+  final bool isFromSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -102,35 +104,43 @@ class SbgNameNnn extends StatelessWidget {
                     fontSize: 15,
                   ),
                 ),
-                TextField(
-                  onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                  onChanged: sbgNameOnChangedNnn,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  cursorColor: Colors.white,
-                  decoration: const InputDecoration(
-                    hintText: 'your name',
-                    hintStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
-                    ),
-                  ),
-                ),
+                ValueListenableBuilder(
+                    valueListenable: sbgNameNotifierNnn,
+                    builder: (context, name, _) {
+                      return TextField(
+                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                        onChanged: sbgNameOnChangedNnn,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          hintText: name ?? 'your name',
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          border: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
+                          ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color.fromRGBO(255, 255, 255, .7)),
+                          ),
+                        ),
+                      );
+                    }),
                 const SizedBox(height: 20),
                 SbgButtonNnn(
                   onPressed: () {
+                    if (isFromSettings) {
+                      Navigator.pop(context);
+                      return;
+                    }
                     if (sbgNameNotifierNnn.value == null || sbgNameNotifierNnn.value!.isEmpty) {
                       final random = Random().nextInt(9000) + 1000;
                       sbgNameOnChangedNnn('Player $random');
@@ -141,41 +151,42 @@ class SbgNameNnn extends StatelessWidget {
                       ),
                     );
                   },
-                  text: 'CONTINUE',
+                  text: isFromSettings ? 'BACK' : 'CONTINUE',
                 ),
                 const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      width: 10,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                if (!isFromSettings)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        width: 10,
+                        height: 30,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        color: Colors.white,
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  )
               ],
             ),
           ),

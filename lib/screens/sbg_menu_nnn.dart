@@ -1,5 +1,6 @@
 import 'package:a45/screens/sbg_levels_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
+import 'package:a45/screens/sbg_shop_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +72,14 @@ class SbgMenuNnn extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SbgButtonNnn(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SbgShopNnn(),
+                      ),
+                    );
+                  },
                   text: 'SHOP',
                 ),
                 const SizedBox(height: 20),

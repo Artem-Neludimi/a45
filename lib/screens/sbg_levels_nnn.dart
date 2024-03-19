@@ -223,27 +223,27 @@ class SbgAppBarNnn extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Image.asset('assets/images/sbg_coin_nnn.png'),
-                  const SizedBox(width: 5),
                   SizedBox(
-                    width: 40,
+                    width: 45,
                     child: ValueListenableBuilder(
                       valueListenable: sbgMoneyNotifierNnn,
                       builder: (context, coins, child) {
                         return FittedBox(
-                          child: StrokeText(
-                            text: coins.toString(),
-                            strokeWidth: 2,
-                            strokeColor: Colors.white,
-                            textStyle: const TextStyle(
-                              fontFamily: 'Barlow',
-                              color: Color.fromRGBO(37, 47, 108, 1),
+                          child: Text(
+                            coins.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
                               height: 0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         );
                       },
                     ),
+                  ),
+                  const SizedBox(width: 5),
+                  Image.asset(
+                    'assets/images/sbg_coin_nnn.png',
                   ),
                 ],
               ),

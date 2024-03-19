@@ -186,9 +186,15 @@ class SbgNameNnn extends StatelessWidget {
 }
 
 class SbgButtonNnn extends StatelessWidget {
-  const SbgButtonNnn({super.key, required this.onPressed, required this.text});
-  final VoidCallback onPressed;
+  const SbgButtonNnn({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.isSmall = false,
+  });
+  final VoidCallback? onPressed;
   final String text;
+  final bool isSmall;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -197,8 +203,8 @@ class SbgButtonNnn extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'assets/images/sbg_button_nnn.png',
-            height: 70,
+            isSmall ? 'assets/images/sbg_small_button_nnn.png' : 'assets/images/sbg_button_nnn.png',
+            height: isSmall ? 40 : 70,
           ),
           Text(
             text,

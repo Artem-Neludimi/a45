@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:a45/game/flame/sbg_goal_nnn.dart';
 import 'package:a45/screens/sbg_menu_nnn.dart';
+import 'package:a45/screens/sbg_settings_nnn.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'sbg_gloves_nnn.dart';
 
@@ -62,6 +64,8 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    _audio(other);
+
     if (other is SbgGoalNnn && !isCoin) {
       game.lives.value--;
       game.remove(this);
@@ -78,6 +82,18 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
       _manageGloves(intersectionPoints, other);
     }
     super.onCollision(intersectionPoints, other);
+  }
+
+  bool isDelay = false;
+  void _audio(PositionComponent other) async {
+    if (other is SbgGoalNnn) return;
+    if (isDelay) return;
+    isDelay = true;
+    if (!isCoin) {
+      FlameAudio.play('sbg_ball_nnn.mp3', volume: 10);
+    }
+    await Future.delayed(const Duration(milliseconds: 100));
+    isDelay = false;
   }
 
   void _manageGloves(Set<Vector2> intersectionPoints, SbgGlovesNnn other) {

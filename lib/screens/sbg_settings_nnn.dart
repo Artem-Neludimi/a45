@@ -110,6 +110,11 @@ class SbgSettingsNnn extends StatelessWidget {
                             builder: (context, sound, _) {
                               return ListTile(
                                 onTap: () {
+                                  if (sound) {
+                                    FlameAudio.bgm.stop();
+                                  } else {
+                                    FlameAudio.bgm.play('sbg_bgm_nnn.mp3');
+                                  }
                                   sbgSoundToggleNnn();
                                 },
                                 contentPadding: EdgeInsets.zero,

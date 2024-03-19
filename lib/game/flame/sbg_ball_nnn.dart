@@ -65,8 +65,16 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
       direction.x = (position.x - other.position.x) * 5;
     }
     if (other is SbgGlovesNnn) {
-      direction.y = -400;
-      direction.x = (position.x - other.position.x) * 5;
+      final mid = intersectionPoints.reduce((a, b) => a + b) / intersectionPoints.length.toDouble();
+      final rect = other.toRect();
+      final isTop = mid.y - 15 < rect.top;
+      if (isTop) {
+        direction.y = -400;
+        direction.x = (position.x - other.position.x) * 5;
+      } else {
+        direction.y = -100;
+        direction.x = (position.x - other.position.x) * 5;
+      }
     }
     super.onCollision(intersectionPoints, other);
   }

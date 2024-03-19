@@ -30,7 +30,7 @@ class SbgGlovesNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn> {
       Vector2(size.x, size.y),
       Vector2(0, size.y),
     ])
-      ..renderShape = true
+      ..renderShape = false
       ..paint = paint);
     return super.onLoad();
   }

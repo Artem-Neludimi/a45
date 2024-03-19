@@ -4,10 +4,14 @@ import 'package:a45/game/flame/sbg_flame_game_nnn.dart';
 import 'package:a45/screens/sbg_levels_nnn.dart';
 import 'package:a45/screens/sbg_menu_nnn.dart';
 import 'package:a45/screens/sbg_name_nnn.dart';
+import 'package:a45/screens/sbg_shop_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 final sbgBonusNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getBool('sbgBonusNotifierNnn') ?? false);
 void sbgBonusSetNnn() {
@@ -36,7 +40,7 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
       if (!isTimerPaused) _timerTick.value--;
     });
     _timerTick.addListener(() {
-      if (_timerTick.value == 0) {
+      if (_timerTick.value <= 0) {
         game.pauseEngine();
         _timer?.cancel();
         sbgLevelsSetNnn(widget.level + 1);
@@ -99,6 +103,117 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
           children: [
             GameWidget(
               game: game,
+            ),
+            Positioned(
+              bottom: 8,
+              right: 8,
+              height: 30,
+              child: Row(
+                children: [
+                  ValueListenableBuilder(
+                      valueListenable: sbgMinusTenNotifierNnn,
+                      builder: (context, value, _) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (value > 0) {
+                              sbgMinusTenDecrementNnn();
+                              _timerTick.value -= 10;
+                            }
+                          },
+                          child: AnimatedOpacity(
+                            duration: const Duration(milliseconds: 300),
+                            opacity: value > 0 ? 1 : 0.5,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Image.asset('assets/images/sbg_10_sec_nnn.png'),
+                                Positioned(
+                                  top: -5,
+                                  left: -5,
+                                  height: 20,
+                                  width: 20,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 2,
+                                      ),
+                                      color: Colors.white.withOpacity(.4),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        value.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                  const SizedBox(width: 5),
+                  // Image.asset('assets/images/sbg_minus_goal_nnn.png'),
+                  ValueListenableBuilder(
+                      valueListenable: livesNotifier,
+                      builder: (context, lives, _) {
+                        return ValueListenableBuilder(
+                            valueListenable: sbgMinusGoalNotifierNnn,
+                            builder: (context, minusGoal, _) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (minusGoal > 0 && lives < 3) {
+                                    sbgMinusGoalDecrementNnn();
+                                    livesNotifier.value++;
+                                  }
+                                },
+                                child: AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 300),
+                                  opacity: minusGoal > 0 && lives < 3 ? 1 : 0.5,
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Image.asset('assets/images/sbg_minus_goal_nnn.png'),
+                                      Positioned(
+                                        top: -5,
+                                        left: -5,
+                                        height: 20,
+                                        width: 20,
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 2,
+                                            ),
+                                            color: Colors.white.withOpacity(.4),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              minusGoal.toString(),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      }),
+                ],
+              ),
             ),
             Positioned(
               top: 8,
@@ -192,6 +307,9 @@ class _SbgGameNnnState extends State<SbgGameNnn> {
   }
 
   String _build0000Timer(int time) {
+    if (time < 0) {
+      return '00:00';
+    }
     final minutes = (time / 60).floor().toString().padLeft(2, '0');
     final seconds = (time % 60).floor().toString().padLeft(2, '0');
     return '$minutes:$seconds';

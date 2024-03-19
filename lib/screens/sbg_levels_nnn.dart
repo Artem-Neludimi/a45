@@ -1,11 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:a45/game/sbg_game_nnn.dart';
+import 'package:a45/screens/sbg_menu_nnn.dart';
+import 'package:a45/screens/sbg_name_nnn.dart';
 import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stroke_text/stroke_text.dart';
+import 'package:flutter/widgets.dart';
 
 final sbgLevelsNotifierNnn = ValueNotifier<int>(sbgSharedPrefsNnn.getInt('sbgLevelsNotifierNnn') ?? 1);
 void sbgLevelsSetNnn(int value) {
@@ -59,6 +63,29 @@ class SbgLevelsNnn extends StatelessWidget {
                                   level: index + 1,
                                 ),
                               ),
+                            );
+                          } else if (index < sbgLevelsNotifierNnn.value - 1) {
+                            showDialog(
+                              context: context,
+                              barrierColor: const Color.fromRGBO(13, 89, 132, .9),
+                              builder: (_) => const SbgDialogNnn(
+                                  title: 'You have already completed this level', buttonText: 'BACK'),
+                            );
+                          } else if (index > 4) {
+                            showDialog(
+                              context: context,
+                              barrierColor: const Color.fromRGBO(13, 89, 132, .9),
+                              builder: (_) => SbgDialogNnn(
+                                title: 'Not enough money to buy this level for ${(index * e * 33).toInt()} coins',
+                                buttonText: 'BACK',
+                              ),
+                            );
+                          } else if (index > sbgLevelsNotifierNnn.value - 1) {
+                            showDialog(
+                              context: context,
+                              barrierColor: const Color.fromRGBO(13, 89, 132, .9),
+                              builder: (_) => const SbgDialogNnn(
+                                  title: 'Complete previous levels to unlock this level', buttonText: 'BACK'),
                             );
                           }
                         },
@@ -164,15 +191,18 @@ class SbgAppBarNnn extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset('assets/images/sbg_back_nnn.png'),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset('assets/images/sbg_back_nnn.png'),
+              ),
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 2,
             child: Center(
               child: Text(
                 title,
@@ -186,9 +216,116 @@ class SbgAppBarNnn extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(flex: 1),
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image.asset('assets/images/sbg_coin_nnn.png'),
+                  const SizedBox(width: 5),
+                  SizedBox(
+                    width: 40,
+                    child: ValueListenableBuilder(
+                      valueListenable: sbgMoneyNotifierNnn,
+                      builder: (context, coins, child) {
+                        return FittedBox(
+                          child: StrokeText(
+                            text: coins.toString(),
+                            strokeWidth: 2,
+                            strokeColor: Colors.white,
+                            textStyle: const TextStyle(
+                              fontFamily: 'Barlow',
+                              color: Color.fromRGBO(37, 47, 108, 1),
+                              height: 0,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class SbgDialogNnn extends StatelessWidget {
+  const SbgDialogNnn({super.key, required this.title, required this.buttonText});
+  final String title;
+  final String buttonText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          StrokeText(
+            text: title,
+            strokeColor: Colors.white,
+            strokeWidth: 5,
+            textStyle: const TextStyle(
+              fontFamily: 'Barlow',
+              fontSize: 33,
+              color: Color.fromRGBO(37, 47, 108, 1),
+            ),
+          ),
+          const SizedBox(height: 20),
+          SbgButtonNnn(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            text: buttonText,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StrokeText extends StatelessWidget {
+  final String text;
+  final double strokeWidth;
+  final Color textColor;
+  final Color strokeColor;
+  final TextStyle? textStyle;
+
+  const StrokeText({
+    super.key,
+    required this.text,
+    this.strokeWidth = 1,
+    this.strokeColor = Colors.black,
+    this.textColor = Colors.white,
+    this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = strokeWidth
+              ..color = strokeColor,
+          ).merge(textStyle),
+        ),
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: textColor).merge(textStyle),
+        ),
+      ],
     );
   }
 }

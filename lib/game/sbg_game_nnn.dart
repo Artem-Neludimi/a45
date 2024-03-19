@@ -7,7 +7,6 @@ import 'package:a45/screens/sbg_splash_nnn.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:stroke_text/stroke_text.dart';
 
 final sbgBonusNotifierNnn = ValueNotifier(sbgSharedPrefsNnn.getBool('sbgBonusNotifierNnn') ?? false);
 void sbgBonusSetNnn() {

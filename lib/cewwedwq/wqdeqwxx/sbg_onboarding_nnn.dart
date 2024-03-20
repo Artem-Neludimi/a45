@@ -43,7 +43,7 @@ class SbgOnboardingNnn extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Swipe to move the goalkeeper\n& Collect coins to unlock new characters',
+                'Swipe to move the goalkeeper\n& Collect coins to unlock new balls and gloves',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -138,7 +138,7 @@ class SbgOnboarding2Nnn extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Rotate your phone to play the game\n& Collect coins to unlock new characters',
+                'Rotate your phone to play the game\n& Collect coins to unlock new balls and gloves',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,

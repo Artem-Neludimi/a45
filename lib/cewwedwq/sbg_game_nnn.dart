@@ -608,7 +608,7 @@ class _SbgPauseDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const StrokeText(
-              text: 'You Lose',
+              text: 'Pause',
               strokeColor: Colors.white,
               strokeWidth: 6,
               textStyle: TextStyle(

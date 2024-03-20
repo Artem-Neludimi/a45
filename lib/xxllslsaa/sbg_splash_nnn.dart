@@ -110,6 +110,7 @@ class _SbgSplashNnnState extends State<SbgSplashNnn> {
                   '${(_progress * 100).toInt()}%',
                   style: const TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 )
               ],

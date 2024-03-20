@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:a45/cewwedwq/sbg_settings_nnn.dart';
 import 'package:a45/cewwedwq/wqdeqwxx/sbg_flame_game_nnn.dart';
 import 'package:a45/xxllslsaa/sbg_goal_nnn.dart';
 import 'package:a45/xxllslsaa/sbg_menu_nnn.dart';
@@ -85,6 +86,7 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
 
   bool isDelay = false;
   void _audio(PositionComponent other) async {
+    if (!sbgSoundNotifierNnn.value) return;
     if (other is SbgGoalNnn) return;
     if (isDelay) return;
     isDelay = true;
@@ -97,6 +99,7 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
 
   void _manageGloves(Set<Vector2> intersectionPoints, SbgGlovesNnn other) {
     if (isCoin) {
+      _coinAudio();
       game.remove(this);
       sbgMoneyAddNnn(1);
       return;
@@ -111,5 +114,10 @@ class SbgBallNnn extends SpriteComponent with HasGameRef<SbgFlameGameNnn>, Colli
       direction.y = -100;
       direction.x = (position.x - other.position.x) * 5;
     }
+  }
+
+  void _coinAudio() {
+    if (!sbgSoundNotifierNnn.value) return;
+    FlameAudio.play('sbg_coin_nnn.mp3', volume: 3);
   }
 }
